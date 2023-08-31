@@ -12,7 +12,7 @@ app.use(express.json())
 app.use('/graphql',graphqlHTTP({
     // schema:schema
     schema,
-    graphiql:true
+    graphiql:true,
 }))
 
 
