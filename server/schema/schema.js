@@ -1,6 +1,6 @@
 //in this file is where we are going to define the schema
 const graphql=require('graphql')
-const { GraphQLObjectType, GraphQLString, GraphQLSchema,GraphQLID,GraphQLInt,GraphQLList } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLSchema,GraphQLID,GraphQLInt,GraphQLList,GraphQLNonNull } = graphql;
 const _= require('lodash')
 //importing mongodb Models into this file
 const Book=require('../models/book')
@@ -41,6 +41,7 @@ const Author=require('../models/author')
             resolve(parent,args){
                 console.log(parent)//here parent returns the book that we requested which contains the authId related to the author
                 // return _.find(authors,{id:parent.authId})
+                return Author.findById(parent.authId)
             }
         }
     })
@@ -59,7 +60,9 @@ const Author=require('../models/author')
             type:new GraphQLList(BookType),
             resolve(parent,args){
                 // return _.filter(books,{authId:parent.id})//parent is the initial author that we requested 
+                return Book.find({authId:parent.id})
             }
+
         }
     })
  })
@@ -70,8 +73,8 @@ const Author=require('../models/author')
         addAuthor:{ //in this case mutaion in sense addition is used to add Author to the database when this addAuthor schem in graphql is called 
             type:AuthorType,
             args:{
-                name:{type:GraphQLString},
-                age:{type:GraphQLInt}
+                name:{type:new GraphQLNonNull(GraphQLString)},//if the string is null don't allow this mutation
+                age:{type:new GraphQLNonNull(GraphQLInt)}
 
             },
             resolve(parent,args){
@@ -86,9 +89,9 @@ const Author=require('../models/author')
         addBook:{
             type:BookType,
             args:{
-                name:{type:GraphQLString},
-                genre:{type:GraphQLString},
-                authId:{type:GraphQLID}
+                name:{type:new GraphQLNonNull(GraphQLString)},
+                genre:{type:new GraphQLNonNull(GraphQLString)},
+                authId:{type:new GraphQLNonNull(GraphQLID)}
             },
             resolve(parent,args){
                 let book=new Book({
@@ -114,6 +117,7 @@ const Author=require('../models/author')
             resolve(parent,args){ //resolve function is to resolve a query by querying the db
                 //code to get dummy data for testing using lodash
             //   return  _.find(books,{id:args.id})
+                return Book.findById(args.id)
              //code to get data from db/other resources 
                 //this parent argument will come into play when we start defining relationships between types
                 //we have access to the arguments eg:id passed along with query through the args parameter in this function
@@ -127,6 +131,7 @@ const Author=require('../models/author')
             args:{id:{type:GraphQLID}},
             resolve(parent,args){
                 // return _.find(authors,{id:args.id})
+                return Author.findById(args.id)
             }
 
         },
@@ -135,12 +140,14 @@ const Author=require('../models/author')
             type:new GraphQLList(BookType),
             resolve(parent,args){
                 // return books
+                return Book.find({})
             }
         },
         authors:{
             type:new GraphQLList(AuthorType),
             resolve(parent,args){
                 // return authors
+                return Author.find({})
             }
         }
 
