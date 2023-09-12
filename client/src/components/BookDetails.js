@@ -65,7 +65,7 @@ function BookDetails({bookId}){
    
        return (
        
-       <div>
+       <div id='book-details'>
         {displayBookDetails()}
 
          </div>
