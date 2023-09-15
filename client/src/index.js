@@ -24,6 +24,25 @@ const Client = new ApolloClient({
 //     `,
 //   })
 //   .then((result) => console.log(result));
+// Client
+//   .query({
+//     query: gql`
+// {     
+//    book(id:"6506f11a24e64fca65407350"){
+
+//           name
+//           genre
+//           author{
+//             name 
+//             age
+//           }
+
+//       }
+// }
+  
+//     `,
+//   })
+  // .then((result) => console.log(result));
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

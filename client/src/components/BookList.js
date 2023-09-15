@@ -1,9 +1,11 @@
 import { useQuery, gql } from '@apollo/client';
 import React ,{Component,useState,useEffect} from "react";
 import { getBooksQuery } from '../queries/queries';
+import BookDetails from './BookDetails';
 
 
 function BookList(){
+    const[selected,setSelected]=useState('')
 
  function displayBook(){
     const {loading,error,data}= useQuery(getBooksQuery)
@@ -14,7 +16,7 @@ function BookList(){
     // console.log('status...')
     // console.log({data})
     // console.log({error})
-    console.log(loading)
+    // console.log(loading)
 if(loading){
     // console.log(data)
     return (
@@ -25,11 +27,11 @@ if(loading){
     )
 }
 else{
-    console.log(data.books)
+    // console.log(data.books)
 
   return  data.books.map(({name,genre,id},index)=>
 
-(            <li key={id}>
+(            <li key={id} value={id} onClick={(e)=>{setSelected(id)}}>
                 {name}----{genre}
                 </li>)
     )
@@ -43,8 +45,11 @@ else{
             BookName
             </h3>  
        <ul id="book-list">
-        <li className='text-black font-bold'>{displayBook()}</li>
+        {/* <li className='text-black font-bold'></li>
+         */}
+         {displayBook()}
        </ul>
+       <BookDetails bookId={selected}/>
 
       </div>
     );
