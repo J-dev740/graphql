@@ -140,6 +140,7 @@ const Author=require('../models/author')
             type:new GraphQLList(BookType),
             resolve(parent,args){
                 // return books
+                console.log('request received ...')
                 return Book.find({})
             }
         },
