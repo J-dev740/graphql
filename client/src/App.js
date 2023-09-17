@@ -12,6 +12,8 @@ import React from 'react'
 
 //components
 import BookList from "./components/BookList";
+import AddBook from "./components/AddBook";
+
 // import { HttpLink } from 'apollo-boost';
 
 
@@ -33,6 +35,7 @@ function App() {
           >
             <h1>Ninjas Reading List</h1>
             <BookList/>
+            <AddBook/>
 
           </div>
   );
