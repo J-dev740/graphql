@@ -32,8 +32,9 @@ function App() {
 
           <div 
           id="main"
+          className=' w-[60%] h-[100%] bg-gray-500 p-5'
           >
-            <h1>Ninjas Reading List</h1>
+            <h1 className=' text-center text-[#444] font-thin'>Ninjas Reading List</h1>
             <BookList/>
             <AddBook/>
 
